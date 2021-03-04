@@ -4,6 +4,10 @@ import NavStyles from './styles/NavStyles';
 import { useUser } from './User';
 import SignOut from './SignOut';
 import { useCart } from '../lib/cartState';
+import CartCount from './CartCount';
+
+const totalItem = (cart = []) =>
+  cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0);
 
 export default function Nav() {
   const user = useUser();
@@ -11,7 +15,7 @@ export default function Nav() {
   return (
     <NavStyles>
       <Link href="/products">Products</Link>
-      <Link href="/signin">Signin</Link>
+
       {user && (
         <>
           <Link href="/sell">Sell</Link>
@@ -20,10 +24,11 @@ export default function Nav() {
           <SignOut />
           <button type="button" onClick={openCart}>
             {' '}
-            My Cart
+            My Cart <CartCount count={totalItem(user.cart)} />
           </button>
         </>
       )}
+      {!user && <Link href="/signin">Signin</Link>}
     </NavStyles>
   );
 }
