@@ -7,13 +7,17 @@ import { useCart } from '../lib/cartState';
 import CartCount from './CartCount';
 
 const totalItem = (cart = []) =>
-  cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0);
+  cart.reduce(
+    (tally, cartItem) => tally + (cartItem.product ? cartItem.quantity : 0),
+    0
+  );
 
 export default function Nav() {
   const user = useUser();
   const { openCart } = useCart();
   return (
     <NavStyles>
+      {/* {process.env.NEXT_PUBLIC_STRIPE_KEY} */}
       <Link href="/products">Products</Link>
 
       {user && (
